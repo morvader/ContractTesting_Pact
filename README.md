@@ -1,3 +1,4 @@
+## INIT PROJECT
 npm init
 
 mkdir api
@@ -9,3 +10,7 @@ npm install express --save
 
 add "start": "nodemon server.js" to packaje.json
 Run the API -> npm run start
+
+## ADD TEST
+npm install mocha chai --save-dev
+npm i --save-dev sinon

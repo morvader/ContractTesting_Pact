@@ -7,8 +7,23 @@
         {
             "type": "node",
             "request": "launch",
-            "name": "Iniciar programa",
-            "program": "${workspaceFolder}\\index.js"
+            "name": "Mocha Tests",
+            "program": "${workspaceFolder}/node_modules/mocha/bin/_mocha",
+            "args": [
+                "-u",
+                "tdd",
+                "--timeout",
+                "999999",
+                "--colors",
+                "${workspaceFolder}/api/test"
+            ],
+            "internalConsoleOptions": "openOnSessionStart"
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "nodemon",
+            "program": "${workspaceFolder}\\server.js"
         }
     ]
 }
