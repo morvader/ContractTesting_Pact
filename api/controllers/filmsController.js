@@ -3,6 +3,9 @@ const FilmRepository = require('../models/filmsRepository');
 
 const filmRepository = new FilmRepository();
 
+exports.filmRepository = filmRepository;
+
+
 exports.list_all_films = function (req, res) {
     const response = {
         films: filmRepository.fetchAll()
@@ -19,30 +22,40 @@ exports.create_a_film = function (req, res) {
 
     var filmExist = filmRepository.getById(new_film.id);
 
+    var returnCode = 200;
+    var response = new_film;
     if (filmExist != undefined) {
-        res.writeHead(500, {
-            'Content-Type': 'application/json'
-        });
-        res.end(JSON.stringify("Duplicate ID"));
+        returnCode = 500;
+        response = "Duplicate ID";
+
+    } else {
+        returnCode = 200;
+        filmRepository.insert(new_film);
+        response = new_film;
     }
-
-    filmRepository.insert(new_film);
-
-    res.end(JSON.stringify(new_film));
+    res.writeHead(returnCode, {
+        'Content-Type': 'application/json'
+    });
+    res.end(JSON.stringify(response));
 };
 
 exports.delete_a_film = (req, res) => {
     var id = req.params.filmId;
-    const response = {
+    response = {
         cod: filmRepository.delete(id)
     }
+    var returnCode = 200;
     if (response.cod === -1) {
-        res.writeHead(404, {
-            'Content-Type': 'application/json'
-        });
-        res.end(JSON.stringify("ID Not found"));
+        returnCode = 404;
+        response = "ID Not found";
+    } else {
+        returnCode = 200;
+        response = "Film Deleted";
     }
-    res.end(JSON.stringify("Film Deleted"));
+    res.writeHead(returnCode, {
+        'Content-Type': 'application/json'
+    });
+    res.end(JSON.stringify(response));
 };
 
 exports.list_init_data = function (req, res) {

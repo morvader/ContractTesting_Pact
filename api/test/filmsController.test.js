@@ -14,6 +14,7 @@ describe('Films Controller Test', function () {
         }
         //Init data
         filmList.list_init_data(reqInit, resInit);
+        expect(filmList.filmRepository.films.length).to.equal(3);
     });
     it('Get all films should return intt films', function () {
         let req = {}
@@ -83,6 +84,8 @@ describe('Films Controller Test', function () {
         
         var returnData = JSON.parse(res.end.firstCall.args[0]);
         expect(returnData).to.deep.equals(newFilmData);
+        //An alement is added
+        expect(filmList.filmRepository.films.length).to.equal(4);
 
     });
 
@@ -107,6 +110,53 @@ describe('Films Controller Test', function () {
         var returnResponse = JSON.parse(res.end.firstCall.args[0]);
         expect(returnCode).to.equals(500);
         expect(returnResponse).to.be.equal("Duplicate ID");
+        //Same number of elements than before
+        expect(filmList.filmRepository.films.length).to.equal(3);
 
+    });
+
+    it('Delete an existing film should remove the film', function () {
+        let req = {
+            //Existing ID
+            params: {
+                filmId: 1
+            }
+        }
+        let res = {
+            end: sinon.spy(),
+            writeHead: sinon.spy()
+        }
+
+        filmList.delete_a_film(req, res);
+        
+        var returnCode = JSON.parse(res.writeHead.firstCall.args[0]);
+        var returnResponse = JSON.parse(res.end.firstCall.args[0]);
+        expect(returnCode).to.equals(200);
+        expect(returnResponse).to.be.equal("Film Deleted");
+        //Element deleted
+        expect(filmList.filmRepository.films.length).to.equal(2);
+        
+    });
+    it('Delete non existing film should return an error', function () {
+        let req = {
+            //Non existing ID
+            params: {
+                filmId: 10
+            }
+        }
+        let res = {
+            end: sinon.spy(),
+            writeHead: sinon.spy()
+        }
+
+        filmList.delete_a_film(req, res);
+        
+        var returnCode = JSON.parse(res.writeHead.firstCall.args[0]);
+        var returnResponse = JSON.parse(res.end.firstCall.args[0]);
+        expect(returnCode).to.equals(404);
+        expect(returnResponse).to.be.equal("ID Not found");
+        //Same Elements
+        expect(filmList.filmRepository.films.length).to.equal(3);
+        
     });
 });
