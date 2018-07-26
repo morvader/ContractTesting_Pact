@@ -4,6 +4,7 @@
     // Para más información, visite: https://go.microsoft.com/fwlink/?linkid=830387
     "version": "0.2.0",
     "configurations": [
+
         {
             "type": "node",
             "request": "launch",
@@ -22,8 +23,14 @@
         {
             "type": "node",
             "request": "launch",
-            "name": "nodemon",
-            "program": "${workspaceFolder}\\server.js"
+            "name": "Launch Server",
+            "program": "${workspaceFolder}\\api\\server.js"
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "Launch Client",
+            "program": "${workspaceFolder}\\client\\index.js"
         }
     ]
 }
