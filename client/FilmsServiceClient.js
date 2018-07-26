@@ -1,5 +1,5 @@
 const request = require('request');
-const Film = require('../api/models/filmModel');
+const Film = require('./model/filmClientModel');
 
 class FilmsServiceClient {
 

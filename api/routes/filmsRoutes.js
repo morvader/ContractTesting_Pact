@@ -14,5 +14,4 @@ module.exports = function (app) {
         .get(filmList.read_a_film)
         .delete(filmList.delete_a_film);
     //   .put(filmList.update_a_film)
-    //   .delete(filmList.delete_a_film);*/
 };
