@@ -43,7 +43,11 @@ class FilmsServiceClient {
                     const result = Film.fromJson(parsedBody.film);
 
                     resolve(result);
-                } else {
+                }
+                else if(response.statusCode == 404){
+                    resolve(response);
+                }
+                else {
                     reject(error);
                 }
             });

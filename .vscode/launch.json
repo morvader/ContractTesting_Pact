@@ -23,7 +23,7 @@
         {
             "type": "node",
             "request": "launch",
-            "name": "IT Cliente Tests",
+            "name": "IT Server Tests",
             "program": "${workspaceFolder}/node_modules/mocha/bin/_mocha",
             "args": [
                 "-u",
@@ -31,7 +31,7 @@
                 "--timeout",
                 "999999",
                 "--colors",
-                "${workspaceFolder}/client/test/IT.test.js"
+                "${workspaceFolder}/api/test/IT.test.js"
             ],
             "internalConsoleOptions": "openOnSessionStart"
         },
