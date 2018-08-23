@@ -12,11 +12,13 @@ class FilmsServiceClient {
 
             const options = {
                 url: this.endpoint + '/films/',
-                headers: {'Accept': 'application/json'}
+                headers: {
+                    'Accept': 'application/json'
+                }
             };
 
             request(options, (error, response, body) => {
-                
+
                 if (!error && response.statusCode == 200) {
                     const parsedBody = JSON.parse(body);
                     const result = parsedBody.films.map((data) => Film.fromJson(data));
@@ -34,7 +36,9 @@ class FilmsServiceClient {
 
             const options = {
                 url: this.endpoint + '/films/' + filmId,
-                headers: {'Accept': 'application/json'}
+                headers: {
+                    'Accept': 'application/json'
+                }
             };
 
             request(options, (error, response, body) => {
@@ -43,11 +47,31 @@ class FilmsServiceClient {
                     const result = Film.fromJson(parsedBody.film);
 
                     resolve(result);
-                }
-                else if(response.statusCode == 404){
+                } else if (response.statusCode == 404) {
                     resolve(response);
+                } else {
+                    reject(error);
                 }
-                else {
+            });
+        });
+    }
+    getFilmByYear(year) {
+        return new Promise((resolve, reject) => {
+            const options = {
+                url: this.endpoint + '/films/',
+                headers: {
+                    'Accept': 'application/json'
+                }
+            };
+            request(options, (error, response, body) => {
+                if (!error && response.statusCode == 200) {
+                    const parsedBody = JSON.parse(body);
+                    const allFilms = parsedBody.films.map((data) => Film.fromJson(data));
+
+                    var result = allFilms.filter((Film) => Film.Anio == year);
+
+                    resolve(result);
+                } else {
                     reject(error);
                 }
             });

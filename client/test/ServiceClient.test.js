@@ -1,36 +1,20 @@
 var expect = require('chai').expect;
 var nock = require('nock');
 var FilmsService = require('../FilmsServiceClient');
+var MockResponses = require('./MockResponses')
 
 describe('GET Films', function () {
     beforeEach(function () {
-        var allFilmsResponse = {
-            "films": [{
-                    "id": 1,
-                    "Name": "Star Wars",
-                    "Description": "Espacio",
-                    "Year": 1980
-                },
-                {
-                    "id": 2,
-                    "Name": "Superman",
-                    "Description": "Comic",
-                    "Year": 1986
-                },
-                {
-                    "id": 3,
-                    "Name": "Indiana Jones",
-                    "Description": "Adventures",
-                    "Year": 1985
-                }
-            ]
-        };
-
+    
         var endPoint = 'http://localhost:3000';
- 
+
         nock(endPoint)
             .get('/films/')
-            .reply(200, allFilmsResponse);
+            .reply(200,MockResponses.allFilmsResponse);
+
+        nock(endPoint)
+            .get('/films/1')
+            .reply(200, MockResponses.oneFilmResponse);
 
         filmService = new FilmsService(endPoint);
     });
@@ -41,6 +25,32 @@ describe('GET Films', function () {
                 expect(response).to.be.not.null;
                 expect(response).to.have.length(3);
                 expect(response[0].Descripcion).to.equal("Espacio");
+            });
+    });
+
+    it('returns film by existing ID', () => {
+        return filmService.getFilmById(1)
+            .then(response => {
+                expect(response).to.be.not.null;
+                expect(response.id).to.equal(1);
+            });
+    });
+    it('If there is only one film should only one result', () => {
+        var year = 1980;
+        return filmService.getFilmByYear(year)
+            .then(response => {
+                expect(response).to.be.not.null;
+                expect(response.length).to.equal(1);
+                expect(response[0].Anio).to.equal(year);
+            });
+    });
+
+    it('If there is no films with year selected should return empty array', () => {
+        var year = 1900;
+        return filmService.getFilmByYear(year)
+            .then(response => {
+                expect(response).to.be.not.null;
+                expect(response.length).to.equal(0);
             });
     });
 });
