@@ -1,0 +1,54 @@
+{
+  "consumer": {
+    "name": "Films Client"
+  },
+  "provider": {
+    "name": "Films Provider"
+  },
+  "interactions": [
+    {
+      "description": "Get all stored films",
+      "providerState": "Get all Films",
+      "request": {
+        "method": "GET",
+        "path": "/films/",
+        "headers": {
+          "Accept": "application/json"
+        }
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "Content-Type": "application/json; charset=utf-8"
+        },
+        "body": {
+          "films": [
+            {
+              "id": 1,
+              "Name": "Star Wars",
+              "Description": "Espacio",
+              "Year": 1980
+            },
+            {
+              "id": 2,
+              "Name": "Superman",
+              "Description": "Comic",
+              "Year": 1986
+            },
+            {
+              "id": 3,
+              "Name": "Indiana Jones",
+              "Description": "Adventures",
+              "Year": 1985
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "metadata": {
+    "pactSpecification": {
+      "version": "2.0.0"
+    }
+  }
+}
