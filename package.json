@@ -6,12 +6,15 @@
   "scripts": {
     "start-server": "nodemon ./api/server.js",
     "start-client": "node ./client/index.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "it-test-server": "mocha ./api/test/IT.test.js",
+    "unit-test-server": "mocha ./api/test/filmsController.test.js",
+    "unit-test-client": "mocha ./client/test/ServiceClient.test.js",
+    "pact-client": "mocha ./client/test/consumerPact.spec.js --timeout 10000",
+    "pact-server": "mocha ./api/test/apiPact.spec.js --timeout 10000"
   },
   "author": "Francisco Moreno",
   "license": "MIT",
   "dependencies": {
-    "@pact-foundation/pact": "^5.9.1",
     "express": "^4.16.3",
     "request": "^2.87.0"
   },
@@ -20,7 +23,7 @@
     "mocha": "^5.2.0",
     "nock": "^9.6.0",
     "nodemon": "^1.18.3",
-    "pact": "^4.3.2",
+    "@pact-foundation/pact": "^5.9.1",
     "sinon": "^6.1.4",
     "supertest": "^3.1.0"
   }
