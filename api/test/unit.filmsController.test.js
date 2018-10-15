@@ -1,27 +1,34 @@
 var expect = require('chai').expect;
 var assert = require('assert');
 const sinon = require("sinon");
-
+var Film = require('../models/filmModel')
 var filmList = require('../controllers/filmsController');
 
 describe('Films Controller Test', function () {
+    var res;
+    var stub_getById;
+    var stub_fetchAll;
     beforeEach(() => {
-        let reqInit = {}
-        let resInit = {
+        res = {
             end: sinon.spy(),
             send: sinon.spy(),
             writeHead: sinon.spy()
         }
-        //Init data
-        filmList.list_init_data(reqInit, resInit);
-        expect(filmList.filmRepository.films.length).to.equal(3);
+        stub_getById =  sinon.stub(filmList.filmRepository, 'getById');
+        stub_fetchAll = sinon.stub(filmList.filmRepository, 'fetchAll');
+
     });
-    it('Get all films should return intt films', function () {
+    afterEach(()=>{
+        //Clear data
+        filmList.filmRepository.clear();
+
+        //Detach sies and stubs
+        filmList.filmRepository.fetchAll.restore();
+        filmList.filmRepository.getById.restore();
+    });
+    it('Get all films should return init films', function () {
         let req = {}
-        let res = {
-            end: sinon.spy(),
-            writeHead: sinon.spy()
-        }
+        stub_fetchAll.returns([new Film(1,'nombre','desc',1980),new Film(2,'nombre2','desc2',1990)]);
 
         filmList.list_all_films(req, res);
         var films = JSON.parse(res.end.firstCall.args[0]);
@@ -30,20 +37,22 @@ describe('Films Controller Test', function () {
     });
 
     it('Get one film should return data of the specific film', function () {
-
         let req = {
             params: {
                 filmId: 1
             }
         }
-        let res = {
-            end: sinon.spy(),
-            writeHead: sinon.spy()
-        }
+        stub_getById.withArgs(1).returns(new Film(1,'nombre','desc',1980));
 
         filmList.read_a_film(req, res);
         var films = JSON.parse(res.end.firstCall.args[0]);
+
         expect(films.film.id).to.equal(1);
+        expect(films.film.Name).to.equal('nombre');
+        expect(films.film.Description).to.equal('desc');
+        expect(films.film.Year).to.equal(1980);
+
+        expect(stub_getById.called).to.be.true;
 
     });
     it('Get non existing film should return 404', function () {
@@ -51,13 +60,10 @@ describe('Films Controller Test', function () {
         let req = {
             //Id no existe
             params: {
-                filmId: 10
+                filmId: 1
             }
         }
-        let res = {
-            end: sinon.spy(),
-            writeHead: sinon.spy()
-        }
+        stub_getById.withArgs(1).returns(undefined);
 
         filmList.read_a_film(req, res);
         var returnCode = JSON.parse(res.writeHead.firstCall.args[0]);
@@ -75,17 +81,17 @@ describe('Films Controller Test', function () {
         let req = {
             body: newFilmData
         }
-        let res = {
-            end: sinon.spy(),
-            writeHead: sinon.spy()
-        }
+
+        filmList.filmRepository.insert = sinon.spy();
 
         filmList.create_a_film(req, res);
         
         var returnData = JSON.parse(res.end.firstCall.args[0]);
         expect(returnData).to.deep.equals(newFilmData);
+
         //An alement is added
-        expect(filmList.filmRepository.films.length).to.equal(4);
+        expect(filmList.filmRepository.insert.called).to.be.true;
+
 
     });
 
@@ -99,10 +105,10 @@ describe('Films Controller Test', function () {
         let req = {
             body: newFilmData
         }
-        let res = {
-            end: sinon.spy(),
-            writeHead: sinon.spy()
-        }
+        
+        filmList.filmRepository.insert = sinon.spy();
+
+        stub_getById.withArgs(1).returns(new Film(1,"existing film", "existing desc", 1980));
 
         filmList.create_a_film(req, res);
         
@@ -110,8 +116,9 @@ describe('Films Controller Test', function () {
         var returnResponse = JSON.parse(res.end.firstCall.args[0]);
         expect(returnCode).to.equals(500);
         expect(returnResponse).to.be.equal("Duplicate ID");
-        //Same number of elements than before
-        expect(filmList.filmRepository.films.length).to.equal(3);
+
+        //Didnt call insert method
+        expect(filmList.filmRepository.insert.called).to.be.false;
 
     });
 
@@ -122,10 +129,9 @@ describe('Films Controller Test', function () {
                 filmId: 1
             }
         }
-        let res = {
-            end: sinon.spy(),
-            writeHead: sinon.spy()
-        }
+
+        filmList.filmRepository.delete = sinon.spy();
+        stub_getById.withArgs(1).returns(new Film(1,"existing film", "existing desc", 1980));
 
         filmList.delete_a_film(req, res);
         
@@ -133,8 +139,9 @@ describe('Films Controller Test', function () {
         var returnResponse = JSON.parse(res.end.firstCall.args[0]);
         expect(returnCode).to.equals(200);
         expect(returnResponse).to.be.equal("Film Deleted");
-        //Element deleted
-        expect(filmList.filmRepository.films.length).to.equal(2);
+
+        expect(filmList.filmRepository.delete.called).to.be.true;
+
         
     });
     it('Delete non existing film should return an error', function () {
@@ -144,10 +151,8 @@ describe('Films Controller Test', function () {
                 filmId: 10
             }
         }
-        let res = {
-            end: sinon.spy(),
-            writeHead: sinon.spy()
-        }
+        filmList.filmRepository.delete = sinon.spy();
+        stub_getById.withArgs(10).returns(undefined);
 
         filmList.delete_a_film(req, res);
         
@@ -155,8 +160,8 @@ describe('Films Controller Test', function () {
         var returnResponse = JSON.parse(res.end.firstCall.args[0]);
         expect(returnCode).to.equals(404);
         expect(returnResponse).to.be.equal("ID Not found");
-        //Same Elements
-        expect(filmList.filmRepository.films.length).to.equal(3);
         
+        //Didnt call delete method
+        expect(filmList.filmRepository.delete.called).to.be.false;
     });
 });

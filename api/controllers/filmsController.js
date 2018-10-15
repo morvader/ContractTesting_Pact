@@ -41,17 +41,29 @@ exports.create_a_film = function (req, res) {
 
 exports.delete_a_film = (req, res) => {
     var id = req.params.filmId;
-    response = {
-        cod: filmRepository.delete(id)
-    }
-    var returnCode = 200;
-    if (response.cod === -1) {
+    var filmExist = filmRepository.getById(id);
+
+    if (filmExist != undefined) {
+        var result = filmRepository.delete(id);
+        if (result != -1)
+            returnCode = 200;
+        else
+            returnCode = 500;
+        response = "Film Deleted";
+
+    } else {
         returnCode = 404;
         response = "ID Not found";
-    } else {
-        returnCode = 200;
-        response = "Film Deleted";
     }
+
+    // var returnCode = 200;
+    // if (response.cod === -1) {
+    //     returnCode = 404;
+    //     response = "ID Not found";
+    // } else {
+    //     returnCode = 200;
+    //     response = "Film Deleted";
+    // }
     res.writeHead(returnCode, {
         'Content-Type': 'application/json'
     });

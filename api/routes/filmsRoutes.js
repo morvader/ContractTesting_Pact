@@ -13,5 +13,4 @@ module.exports = function (app) {
     app.route('/films/:filmId')
         .get(filmList.read_a_film)
         .delete(filmList.delete_a_film);
-    //   .put(filmList.update_a_film)
 };

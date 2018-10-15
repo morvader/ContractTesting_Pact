@@ -1,0 +1,334 @@
+{
+	"info": {
+		"_postman_id": "b48e85b1-de2a-4575-b479-f7ac54e6a8a2",
+		"name": "IT-Server-Films",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "InitFilms",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "9fb914d0-3889-4b6a-9dce-60e0f0de671c",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "localhost:3000/init",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"init"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GetAllFilms Inicial",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "b182833b-71ec-4bbc-b257-7da6933123f6",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"pm.test(\"Primera pelicula correcta\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.films[0].id).to.eql(1);",
+							"    pm.expect(jsonData.films[0].Name).to.eql('Star Wars');",
+							"    pm.expect(jsonData.films[0].Year).to.eql(1980);",
+							"});",
+							"pm.test(\"Numero de elementos correcto\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.films.length).to.eql(3);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "localhost:3000/films",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"films"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GetFilm",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "a4b8639f-9c3e-4c55-bac4-18cc34c6f641",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"pm.test(\"Contenido esperado\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.film.id).to.eql(2);",
+							"    pm.expect(jsonData.film.Name).to.eql('Superman');",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "localhost:3000/films/2",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"films",
+						"2"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Insertar ID Duplicado",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "7db44092-1e68-42f8-8730-d2da53406e97",
+						"exec": [
+							"pm.test(\"Status code is 500\", function () {",
+							"    pm.response.to.have.status(500);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"id\": 1,\n   \"Name\": \"Tiburon\",\n   \"Description\": \"terror en el mar\",\n   \"Year\": 1980\n}"
+				},
+				"url": {
+					"raw": "localhost:3000/films",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"films"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Insertar nueva",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "7db44092-1e68-42f8-8730-d2da53406e97",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"id\": 4,\n   \"Name\": \"Tiburon\",\n   \"Description\": \"terror en el mar\",\n   \"Year\": 1980\n}"
+				},
+				"url": {
+					"raw": "localhost:3000/films",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"films"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GetAllFilms despues de Insertar",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "b182833b-71ec-4bbc-b257-7da6933123f6",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"pm.test(\"Primera pelicula correcta\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.films[0].id).to.eql(1);",
+							"    pm.expect(jsonData.films[0].Name).to.eql('Star Wars');",
+							"    pm.expect(jsonData.films[0].Year).to.eql(1980);",
+							"});",
+							"pm.test(\"Numero de elementos correcto\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.films.length).to.eql(4);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "localhost:3000/films",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"films"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Borrar film",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "localhost:3000/films/4",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"films",
+						"4"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GetAllFilms despues de Borrar",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "b182833b-71ec-4bbc-b257-7da6933123f6",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"pm.test(\"Primera pelicula correcta\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.films[0].id).to.eql(1);",
+							"    pm.expect(jsonData.films[0].Name).to.eql('Star Wars');",
+							"    pm.expect(jsonData.films[0].Year).to.eql(1980);",
+							"});",
+							"pm.test(\"Numero de elementos correcto\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.films.length).to.eql(3);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "localhost:3000/films",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"films"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

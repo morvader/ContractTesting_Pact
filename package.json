@@ -19,11 +19,11 @@
     "request": "^2.87.0"
   },
   "devDependencies": {
+    "@pact-foundation/pact": "^5.9.1",
     "chai": "^4.1.2",
     "mocha": "^5.2.0",
     "nock": "^9.6.0",
     "nodemon": "^1.18.3",
-    "@pact-foundation/pact": "^5.9.1",
     "sinon": "^6.1.4",
     "supertest": "^3.1.0"
   }
