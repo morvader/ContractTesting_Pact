@@ -6,14 +6,14 @@ const expect = chai.expect
 const API_PORT = process.env.API_PORT || 9123
 //chai.use(chaiAsPromised)
 
-var MockResponses = require('./MockResponses')
+
 var FilmsService = require('../FilmsServiceClient');
 // Configure and import consumer API
 // Note that we update the API endpoint to point at the Mock Service
 const LOG_LEVEL = process.env.LOG_LEVEL || 'WARN'
 
 const provider = new Pact({
-    consumer: 'Films Client',
+    consumer: 'Insert Films Client',
     provider: 'Films Provider',
     port: API_PORT,
     log: path.resolve(process.cwd(), 'logs', 'pact.log'),
@@ -24,7 +24,7 @@ const provider = new Pact({
 
 var endPoint = 'http://localhost:' + API_PORT;
 
-describe('Test with Pact', () => {
+describe('Inserting films', () => {
     before(() => {
         filmService = new FilmsService(endPoint);
         return provider.setup();
@@ -34,35 +34,39 @@ describe('Test with Pact', () => {
     after(() => {
         return provider.finalize()
     })
-    describe('When a call is made', () => {
-        describe('Get all films', () => {
+    describe('When insert the meaning of life', () => {
+        describe('monty phyton film should be inserted', () => {
+            var pact_body = {"id": 42,
+                        "Name": "Meaning of life",
+                        "Description": "Comedy",
+                        "Year": 1986}
             before(() => {
                 return provider.addInteraction({
-                    state: 'Get all Films',
-                    uponReceiving: 'Get all stored films',
+                    state: 'Empty repository',
+                    uponReceiving: 'Insert meaning of life',
                     withRequest: {
-                        method: 'GET',
+                        method: 'POST',
                         path: '/films/',
                         headers: {
-                            'Accept': 'application/json'
-                        }
+                            'Content-Type': 'application/json'
+                        },
+                        body: pact_body
                     },
                     willRespondWith: {
                         status: 200,
                         headers: {
                             'Content-Type': 'application/json'
                         },
-                        body: MockResponses.allFilmsResponse
+                        body: pact_body
                     }
                 })
             })
 
-            it('returns all films', () => {
-                return filmService.getAllFilms()
+            it('film is inserted', () => {
+                return filmService.insertFilm(42)
                     .then(response => {
                         expect(response).to.be.not.null;
-                        expect(response).to.have.length(3);
-                        expect(response[0].Descripcion).to.equal("Space");
+                        expect(response.id).to.equal(42);
                     });
             });
         })

@@ -10,7 +10,9 @@
     "unit-test-server": "mocha ./api/test/unit.filmsController.test.js",
     "unit-test-client": "mocha ./client/test/ServiceClient.test.js",
     "pact-client": "mocha ./client/test/consumerPact.spec.js --timeout 10000",
-    "pact-server": "mocha ./api/test/apiPact.spec.js --timeout 10000"
+    "pact-client-insert": "mocha ./client_insert/test/consumerPact.spec.js --timeout 10000",
+    "pact-server": "mocha ./api/test/apiPact.spec.js --timeout 10000",
+    "pact-server-insert": "mocha ./api/test/apiPactClientInsert.spec.js --timeout 10000"
   },
   "author": "Francisco Moreno",
   "license": "MIT",

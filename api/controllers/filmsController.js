@@ -17,7 +17,6 @@ exports.list_all_films = function (req, res) {
 };
 
 exports.create_a_film = function (req, res) {
-
     var new_film = Film.fromJson(req.body);
 
     var filmExist = filmRepository.getById(new_film.id);
@@ -62,11 +61,19 @@ exports.delete_a_film = (req, res) => {
 };
 
 exports.list_init_data = function (req, res) {
+    console.log("Initializing....")
+    console.log(req.body.state);
+
     filmRepository.clear();
 
-    filmRepository.insert(new Film(1, "Star Wars", "Space", 1980));
-    filmRepository.insert(new Film(2, "Superman", "Comic", 1986));
-    filmRepository.insert(new Film(3, "Indiana Jones", "Adventures", 1985));
+    if (req.body.state === 'Empty repository') {
+        console.log('Clearing data....')
+        filmRepository.clear();
+    } else {
+        filmRepository.insert(new Film(1, "Star Wars", "Space", 1980));
+        filmRepository.insert(new Film(2, "Superman", "Comic", 1986));
+        filmRepository.insert(new Film(3, "Indiana Jones", "Adventures", 1985));
+    }
 
     res.end();
 };

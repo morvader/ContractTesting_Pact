@@ -1,7 +1,7 @@
 const { Verifier } = require('@pact-foundation/pact')
 var path = require('path');
 
-let opts = {
+let clienteNormal = {
     provider:"Films Provider",
     providerBaseUrl: 'http://localhost:3000',
     //providerStatesUrl: 'http://localhost:9000/states',
@@ -9,7 +9,8 @@ let opts = {
     pactUrls: [path.resolve(__dirname, '../../pacts/films_client-films_provider.json')]
 };
 
-new Verifier().verifyProvider(opts).then(() => {
+
+new Verifier().verifyProvider(clienteNormal).then(() => {
     console.log('success');
     process.exit(0);
 }).catch((error) => {

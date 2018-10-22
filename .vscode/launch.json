@@ -7,6 +7,21 @@
         {
             "type": "node",
             "request": "launch",
+            "name": "Pact Server Tests",
+            "program": "${workspaceFolder}/node_modules/mocha/bin/_mocha",
+            "args": [
+                "-u",
+                "tdd",
+                "--timeout",
+                "10000",
+                "--colors",
+                "${workspaceFolder}/api/test/apiPactClientInsert.spec.js"
+            ],
+            "internalConsoleOptions": "openOnSessionStart"
+        },
+        {
+            "type": "node",
+            "request": "launch",
             "name": "Mocha Client Nock Test",
             "program": "${workspaceFolder}/node_modules/mocha/bin/_mocha",
             "args": [

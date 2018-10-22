@@ -19,14 +19,14 @@
       "response": {
         "status": 200,
         "headers": {
-          "Content-Type": "application/json; charset=utf-8"
+          "Content-Type": "application/json"
         },
         "body": {
           "films": [
             {
               "id": 1,
               "Name": "Star Wars",
-              "Description": "Espacio",
+              "Description": "Space",
               "Year": 1980
             },
             {
