@@ -7,7 +7,7 @@
     "start-server": "nodemon ./api/server.js",
     "start-client": "node ./client/index.js",
     "it-test-server": "mocha ./api/test/IT.test.js",
-    "unit-test-server": "mocha ./api/test/filmsController.test.js",
+    "unit-test-server": "mocha ./api/test/unit.filmsController.test.js",
     "unit-test-client": "mocha ./client/test/ServiceClient.test.js",
     "pact-client": "mocha ./client/test/consumerPact.spec.js --timeout 10000",
     "pact-server": "mocha ./api/test/apiPact.spec.js --timeout 10000"

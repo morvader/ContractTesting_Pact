@@ -55,15 +55,6 @@ exports.delete_a_film = (req, res) => {
         returnCode = 404;
         response = "ID Not found";
     }
-
-    // var returnCode = 200;
-    // if (response.cod === -1) {
-    //     returnCode = 404;
-    //     response = "ID Not found";
-    // } else {
-    //     returnCode = 200;
-    //     response = "Film Deleted";
-    // }
     res.writeHead(returnCode, {
         'Content-Type': 'application/json'
     });
