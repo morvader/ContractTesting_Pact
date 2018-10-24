@@ -29,13 +29,13 @@
 					"raw": ""
 				},
 				"url": {
-					"raw": "localhost:3000/init",
+					"raw": "{{url}}/init/",
 					"host": [
-						"localhost"
+						"{{url}}"
 					],
-					"port": "3000",
 					"path": [
-						"init"
+						"init",
+						""
 					]
 				}
 			},
@@ -75,13 +75,13 @@
 					"raw": ""
 				},
 				"url": {
-					"raw": "localhost:3000/films",
+					"raw": "{{url}}/films/",
 					"host": [
-						"localhost"
+						"{{url}}"
 					],
-					"port": "3000",
 					"path": [
-						"films"
+						"films",
+						""
 					]
 				}
 			},
@@ -116,11 +116,10 @@
 					"raw": ""
 				},
 				"url": {
-					"raw": "localhost:3000/films/2",
+					"raw": "{{url}}/films/2",
 					"host": [
-						"localhost"
+						"{{url}}"
 					],
-					"port": "3000",
 					"path": [
 						"films",
 						"2"
@@ -160,13 +159,13 @@
 					"raw": "{\n\t\"id\": 1,\n   \"Name\": \"Tiburon\",\n   \"Description\": \"terror en el mar\",\n   \"Year\": 1980\n}"
 				},
 				"url": {
-					"raw": "localhost:3000/films",
+					"raw": "{{url}}/films/",
 					"host": [
-						"localhost"
+						"{{url}}"
 					],
-					"port": "3000",
 					"path": [
-						"films"
+						"films",
+						""
 					]
 				}
 			},
@@ -203,13 +202,13 @@
 					"raw": "{\n\t\"id\": 4,\n   \"Name\": \"Tiburon\",\n   \"Description\": \"terror en el mar\",\n   \"Year\": 1980\n}"
 				},
 				"url": {
-					"raw": "localhost:3000/films",
+					"raw": "{{url}}/films/",
 					"host": [
-						"localhost"
+						"{{url}}"
 					],
-					"port": "3000",
 					"path": [
-						"films"
+						"films",
+						""
 					]
 				}
 			},
@@ -249,13 +248,13 @@
 					"raw": ""
 				},
 				"url": {
-					"raw": "localhost:3000/films",
+					"raw": "{{url}}/films/",
 					"host": [
-						"localhost"
+						"{{url}}"
 					],
-					"port": "3000",
 					"path": [
-						"films"
+						"films",
+						""
 					]
 				}
 			},
@@ -263,6 +262,20 @@
 		},
 		{
 			"name": "Borrar film",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "cc6c7af1-18cd-480f-a804-a7a62106de94",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
 			"request": {
 				"method": "DELETE",
 				"header": [],
@@ -271,11 +284,10 @@
 					"raw": ""
 				},
 				"url": {
-					"raw": "localhost:3000/films/4",
+					"raw": "{{url}}/films/4",
 					"host": [
-						"localhost"
+						"{{url}}"
 					],
-					"port": "3000",
 					"path": [
 						"films",
 						"4"
@@ -318,13 +330,13 @@
 					"raw": ""
 				},
 				"url": {
-					"raw": "localhost:3000/films",
+					"raw": "{{url}}/films/",
 					"host": [
-						"localhost"
+						"{{url}}"
 					],
-					"port": "3000",
 					"path": [
-						"films"
+						"films",
+						""
 					]
 				}
 			},
