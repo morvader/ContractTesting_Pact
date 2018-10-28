@@ -7,8 +7,8 @@
   },
   "interactions": [
     {
-      "description": "Get all stored films",
-      "providerState": "Get all Films",
+      "description": "Get all films",
+      "providerState": "Generate films",
       "request": {
         "method": "GET",
         "path": "/films/",
@@ -27,21 +27,77 @@
               "id": 1,
               "Name": "Star Wars",
               "Description": "Space",
-              "Year": 1980
+              "Year": 1980,
+              "Rating": 9
             },
             {
               "id": 2,
               "Name": "Superman",
               "Description": "Comic",
-              "Year": 1986
+              "Year": 1986,
+              "Rating": 8
             },
             {
-              "id": 3,
+              "id": 10,
               "Name": "Indiana Jones",
               "Description": "Adventures",
-              "Year": 1985
+              "Year": 1985,
+              "Rating": 6
             }
           ]
+        },
+        "matchingRules": {
+          "$.body.films[0].id": {
+            "match": "type"
+          },
+          "$.body.films[1].id": {
+            "match": "type"
+          },
+          "$.body.films[2].id": {
+            "match": "type"
+          }
+        }
+      }
+    },
+    {
+      "description": "Get all stored films",
+      "providerState": "Generate films",
+      "request": {
+        "method": "GET",
+        "path": "/films/1",
+        "headers": {
+          "Accept": "application/json"
+        }
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "film": {
+            "id": 1,
+            "Name": "Star Wars",
+            "Description": "Space",
+            "Year": 1980,
+            "Rating": 9
+          }
+        }
+      }
+    },
+    {
+      "description": "film not found",
+      "providerState": "Generate films",
+      "request": {
+        "method": "GET",
+        "path": "/films/99",
+        "headers": {
+          "Accept": "application/json"
+        }
+      },
+      "response": {
+        "status": 404,
+        "headers": {
         }
       }
     }

@@ -16,6 +16,10 @@ describe('GET Films', function () {
             .get('/films/1')
             .reply(200, MockResponses.oneFilmResponse);
 
+        nock(endPoint)
+            .get('/films/99')
+            .reply(404);
+
         filmService = new FilmsService(endPoint);
     });
 
@@ -24,7 +28,7 @@ describe('GET Films', function () {
             .then(response => {
                 expect(response).to.be.not.null;
                 expect(response).to.have.length(3);
-                expect(response[0].Descripcion).to.equal("Espacio");
+                expect(response[0].Descripcion).to.equal("Space");
             });
     });
 
@@ -33,6 +37,13 @@ describe('GET Films', function () {
             .then(response => {
                 expect(response).to.be.not.null;
                 expect(response.id).to.equal(1);
+            });
+    });
+    it('returns film by existing ID', () => {
+        return filmService.getFilmById(99)
+            .then(response => {
+                expect(response).to.be.not.null;
+                expect(response.statusCode).to.equal(404);
             });
     });
     it('If there is only one film should only one result', () => {
