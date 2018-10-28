@@ -27,22 +27,19 @@
               "id": 1,
               "Name": "Star Wars",
               "Description": "Space",
-              "Year": 1980,
-              "Rating": 9
+              "Year": 1980
             },
             {
               "id": 2,
               "Name": "Superman",
               "Description": "Comic",
-              "Year": 1986,
-              "Rating": 8
+              "Year": 1986
             },
             {
               "id": 10,
               "Name": "Indiana Jones",
               "Description": "Adventures",
-              "Year": 1985,
-              "Rating": 6
+              "Year": 1985
             }
           ]
         },
@@ -79,8 +76,7 @@
             "id": 1,
             "Name": "Star Wars",
             "Description": "Space",
-            "Year": 1980,
-            "Rating": 9
+            "Year": 1980
           }
         }
       }
