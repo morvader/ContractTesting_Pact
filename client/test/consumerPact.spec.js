@@ -23,8 +23,9 @@ const provider = new Pact({
     logLevel: LOG_LEVEL,
     spec: 2,
     tags: ['films'],
-    providerVersion: 1.0
-})
+    providerVersion: '1.0'
+});
+
 
 var endPoint = 'http://localhost:' + API_PORT;
 
