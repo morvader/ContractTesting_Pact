@@ -1,6 +1,7 @@
 from flask import Flask
 from flask import jsonify
 from flask import request
+from flask import abort
 
 app = Flask(__name__)
 
@@ -20,9 +21,9 @@ def index():
 def getfilms():
     data = {
         "films": [
-            {"id": 1, "Nombre": "Star Wars", "Description": "Space", "Year": 1980},
-            {"id": 2, "Nombre": "Superman", "Description": "Comic", "Year": 1986},
-            {"id": 3, "Nombre": "Indiana Jones","Description": "Adventures","Year": 1985},
+            {"id": 1, "Name": "Star Wars", "Description": "Space", "Year": 1980},
+            {"id": 2, "Name": "Superman", "Description": "Comic", "Year": 1986},
+            {"id": 3, "Name": "Indiana Jones","Description": "Adventures","Year": 1985},
         ]
     }
     return jsonify(data)
@@ -30,7 +31,9 @@ def getfilms():
 
 @app.route("/films/<id>", methods=["GET"])
 def getFilByID(id):
-    data = {"id": 1, "Name": "Star Wars", "Description": "Space", "Year": 1980}
+    if id == '99':
+        abort(404)
+    data = {"film": {"id": 1, "Name": "Star Wars", "Description": "Space", "Year": 1980}}
     return jsonify(data)
 
 @app.route("/films/", methods=["POST"])
