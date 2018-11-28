@@ -14,7 +14,7 @@ describe('Pruebas integración cliente', () => {
         };
         return new Verifier().verifyProvider(clienteInsert)
             .then(output => {
-                console.log('Pact Verification Complete!')
+                console.log('Pact *INSERT* Verification Complete!')
                 console.log(output)
             })
     });
@@ -29,7 +29,7 @@ describe('Pruebas integración cliente', () => {
         
         return new Verifier().verifyProvider(clienteNormal)
             .then(output => {
-                console.log('Pact Verification Complete!')
+                console.log('Pact *NORMAL* Verification Complete!')
                 console.log(output)
             })
     });
