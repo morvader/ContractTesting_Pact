@@ -64,9 +64,12 @@ Trabajar con este framework aporta las siguientes ventajas:
 - **Multi-tecnología**: Clientes y proveedores pueden estar desarrollados en diferentes lenguajes
 
 ## Ejemplos
+
+El código mostrado a continuación sería el correspondiente a la implementación de PACT en Javascript.
+
 ### Configuración de PACT en cliente
 
-* Propieades generales
+* **Propieades generales**: Especificar nombre del consumidor y proveedor para facilitar la depuración así como el nombre y la ubicación del pacto generado
 
 ```
 const provider = new Pact({   
@@ -137,9 +140,12 @@ describe("Inserting films", () => {
         })
     });
 ```
-### Verificar en proveedor
+### Verificar en el proveedor
 
-  * El verificador de Pact se encargará de lanzar las peticiones contra el servicio y comprobar las respuestas con las especificadas
+  * El verificador de Pact se encargará de lanzar las peticiones contra el servicio real y comprobar las respuestas con las especificadas.
+  * Indicar el endpoint del proveedor desplegado contra el que se lanzarán las peticiones
+  * Si fuese necesario, especificar la URL del servicio que se utulizará para realizar el setUp adecuado del sistema antes de la prueba.
+  * Indicar la ubicación, ya se ruta física o http, del fichero-pacto
 
 ```
 let clienteNormal = {
@@ -157,3 +163,7 @@ new Verifier().verifyProvider(clienteNormal).then(() => {
     process.exit(1);
 });
 ```
+
+### Resultados
+
+* En la consola de ejecución veremos los resultado de la prueba, "success" en el caso de que todo haya ido bien o los mensajes de error correspondientes a las diferencias encontradas entre lo especificado en el pacto y las respuestas reales.
