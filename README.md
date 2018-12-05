@@ -69,7 +69,7 @@ El código mostrado a continuación sería el correspondiente a la implementaci�
 
 ### Configuración de PACT en cliente
 
-* **Propieades generales**: Especificar nombre del consumidor y proveedor para facilitar la depuración así como el nombre y la ubicación del pacto generado
+* **Propieaddes generales**: Especificar nombre del consumidor y proveedor para facilitar la depuración así como el nombre y la ubicación del pacto generado
 
 ```
 const provider = new Pact({   
