@@ -1,4 +1,13 @@
 {
     "python.pythonPath": "C:\\Users\\Francisco Moreno\\AppData\\Local\\Programs\\Python\\Python37-32\\python.exe",
-    "python.formatting.provider": "black"
+    "python.formatting.provider": "black",
+    "spellright.language": [
+        "en",
+        "es"
+    ],
+    "spellright.documentTypes": [
+        "markdown",
+        "latex",
+        "plaintext"
+    ]
 }

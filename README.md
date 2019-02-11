@@ -45,10 +45,10 @@ El orden de ejecución sería el siguiente:
 1. Definir las "interacciones" entre cliente y proveedor. Es decir, qué debe responder el proveedor ante peticiones concretas del consumidor.
 2. Crear pruebas unitarias que "ejerciten" las interacciones anteriormente definidas.
 3. Lanzar dichas pruebas unitarias mediante Pact
-4. Pact, de manera automática, arrancará en la máquina un local un servicio que mockeará el comportamiento del proveedor, esto es que, ante las peticiones lanzadas por las pruebas unitarias de nuestro cliente devolverá las respuetas previamente estableceidas, tal y como haría el servicio real en producción.
+4. Pact, de manera automática, arrancará en la máquina un local un servicio que mockeará el comportamiento del proveedor, esto es que, ante las peticiones lanzadas por las pruebas unitarias de nuestro cliente devolverá las respuestas previamente establecidas, tal y como haría el servicio real en producción.
 5. Esto nos permitirá verificar, antes de desplegar en producción, que nuestro cliente es compatible con las respuestas del proveedor.
 6. Si las pruebas unitarias son correctas se generará un fichero JSON que contendrá el **PACTO**
-7. Este fichero deberá ser compartido con el proveedor. *En cada proyecto y equipo de trabajo se deberá buscar la manera más adecuada de realizar esta acción. [Pact Broker](https://github.com/pact-foundation/pact_broker) pruede ser una opción interesate por sus ventajas
+7. Este fichero deberá ser compartido con el proveedor. *En cada proyecto y equipo de trabajo se deberá buscar la manera más adecuada de realizar esta acción. [Pact Broker](https://github.com/pact-foundation/pact_broker) puede ser una opción interesante por sus ventajas
 8. Arrancamos el proveedor
 9. En el lado del consumidor lanzamos el verificador de pactos indicando la ubicación del fichero con el pacto
 10. Pact, levantará en local un mock del consumidor, éste lanzará contra nuestro proveedor las llamadas previamente definidas y comprobará las respuestas con las esperadas
@@ -69,7 +69,7 @@ El código mostrado a continuación sería el correspondiente a la implementaci�
 
 ### Configuración de PACT en cliente
 
-* **Propieaddes generales**: Especificar nombre del consumidor y proveedor para facilitar la depuración así como el nombre y la ubicación del pacto generado
+* **Propiedades generales**: Especificar nombre del consumidor y proveedor para facilitar la depuración así como el nombre y la ubicación del pacto generado
 
 ```
 const provider = new Pact({   
@@ -144,7 +144,7 @@ describe("Inserting films", () => {
 
   * El verificador de Pact se encargará de lanzar las peticiones contra el servicio real y comprobar las respuestas con las especificadas.
   * Indicar el endpoint del proveedor desplegado contra el que se lanzarán las peticiones
-  * Si fuese necesario, especificar la URL del servicio que se utulizará para realizar el setUp adecuado del sistema antes de la prueba.
+  * Si fuese necesario, especificar la URL del servicio que se utilizará para realizar el setUp adecuado del sistema antes de la prueba.
   * Indicar la ubicación, ya se ruta física o http, del fichero-pacto
 
 ```
