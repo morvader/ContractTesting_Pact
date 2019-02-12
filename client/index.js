@@ -24,9 +24,9 @@ filmsServiceClient.getFilmById(1)
         console.log(error);
     });
 
-filmsServiceClient.getFilmByYear(1980)
+filmsServiceClient.getFilmByYear(1985)
     .then((film) => {
-        console.log("FILM ON 1980:");
+        console.log("FILM ON 1985:");
         if (film.statusCode == 404)
             console.log("The film you are looking for does not exist");
         else {
