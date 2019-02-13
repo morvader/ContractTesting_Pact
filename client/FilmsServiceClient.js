@@ -68,7 +68,7 @@ class FilmsServiceClient {
                     const parsedBody = JSON.parse(body);
                     const allFilms = parsedBody.films.map((data) => Film.fromJson(data));
 
-                    var result = allFilms.filter((Film) => Film.Anio == year);
+                    var result = allFilms.filter((Film) => Film.Year == year);
 
                     resolve(result);
                 } else {

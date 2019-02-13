@@ -52,7 +52,7 @@ describe('GET Films', function () {
             .then(response => {
                 expect(response).to.be.not.null;
                 expect(response.length).to.equal(1);
-                expect(response[0].Anio).to.equal(year);
+                expect(response[0].Year).to.equal(year);
             });
     });
 

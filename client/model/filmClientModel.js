@@ -3,7 +3,7 @@ class Film {
         this.id = id;
         this.Nombre = Name;
         this.Descripcion = Description;
-        this.Anio = Year;
+        this.Year = Year;
     }
 
     static fromJson(data) {

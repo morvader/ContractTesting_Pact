@@ -112,6 +112,7 @@ describe('Pact for Film Provider', () => {
             return filmService.getFilmById(1)
                 .then(response => {
                     expect(response).to.be.not.null;
+                    expect(response.Year).to.be.eq(1980);
                 });
         });
         it('returns not found when film does not exist', () => {
