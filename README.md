@@ -11,7 +11,7 @@ Esto favorece la detección temprana de errores, ya que estas pruebas no necesit
 
 Existen varias librerías que dan soporte a este tipo de pruebas. En esta charla me centraré en el uso de PactJS.
 
-## Contract Testing con PACT
+# Contract Testing con PACT
 
 [Pact](https://docs.pact.io) es un framework **open source** que facilita el testing de componentes basándose en contratos. Sus principales ventajas son:
 - Open source
@@ -66,6 +66,24 @@ Trabajar con este framework aporta las siguientes ventajas:
 ## Ejemplos
 
 El código mostrado a continuación sería el correspondiente a la implementación de PACT en Javascript.
+
+### Instalación
+
+Para instalar **PACT** en un entorno Node debemos ejecutar
+
+```
+npm install @pact-foundation/pact --save-dev
+```
+
+Con esto, ya podremos hacer uso de PACT desde nuestro código. No obstante para poder *ejecutarlo*, necesitaremos que un *runner* de pruebas se encargue de lanzar las verificaciones pertinentes. En este ejemplo, y por simplicidad, utilizaremos la dupla "mocha + chai", aunque podría haber sido cualquier otra opción.
+
+```
+npm install mocha chai --save-dev
+ ```
+
+**NOTA:** Esta configuración debería realizarse tanto en el lado del cliente como el del proveedor. En este caso, asumimos que ambas partes están desarrolladas sobre NodeJs. De no ser así, habría que utilizar la librería de PACT y runner de pruebas correspondientes en cada caso.
+En el ejemplo de [GitHub](http://github.com/morvader/pactjs_testing) puede verse como realizar la verificación de un pacto en el caso de que el cliente se haya desarrollado en Python
+
 
 ### Configuración de PACT en cliente
 
@@ -140,12 +158,21 @@ describe("Inserting films", () => {
         })
     });
 ```
+Para generar el pacto correspondiente pasaríamos a ejecutar las pruebas:
+
+```
+mocha ./client/test/consumerPact.spec.js --timeout 10000
+```
+*Se añade un timetout por seguridad, ya que dedemos dejar tiempos al sistema a que levante el servidor mockeado*
+
+Con esto tendríamos por un lado, el resultado de la pruebas que comprobarían que el cliente es compatible con la definición del contrato y por otro, el archivo JSon que especifica el contrato
+
 ### Verificar en el proveedor
 
   * El verificador de Pact se encargará de lanzar las peticiones contra el servicio real y comprobar las respuestas con las especificadas.
   * Indicar el endpoint del proveedor desplegado contra el que se lanzarán las peticiones
   * Si fuese necesario, especificar la URL del servicio que se utilizará para realizar el setUp adecuado del sistema antes de la prueba.
-  * Indicar la ubicación, ya se ruta física o http, del fichero-pacto
+  * Indicar la ubicación, ya se ruta física o http, del fichero-pacto (generado previamente desde el cliente)
 
 ```
 let clienteNormal = {
@@ -164,6 +191,12 @@ new Verifier().verifyProvider(clienteNormal).then(() => {
 });
 ```
 
+De la misma manera que en el lado del cliente, ejecutaríamos las pruebas en servidor:
+
+```
+mocha ./api/test/apiPact.spec.js --timeout 10000
+```
+
 ### Resultados
 
-* En la consola de ejecución veremos los resultado de la prueba, "success" en el caso de que todo haya ido bien o los mensajes de error correspondientes a las diferencias encontradas entre lo especificado en el pacto y las respuestas reales.
+* En la consola de ejecución veremos los resultado de la prueba, "success" en el caso de que todo haya ido bien o los mensajes de error correspondientes con las diferencias encontradas entre lo especificado en el pacto y las respuestas reales.
