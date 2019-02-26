@@ -8,8 +8,9 @@ const expect = chai.expect
 const API_PORT = process.env.API_PORT || 9123
 //chai.use(chaiAsPromised)
 
-var PactResponses = require('./PactResponses')
-var FilmsService = require('../FilmsServiceClient');
+const PactResponses = require('./PactResponses')
+const FilmsService = require('../FilmsServiceClient');
+const Film = require('../model/filmClientModel');
 // Configure and import consumer API
 // Note that we update the API endpoint to point at the Mock Service
 const LOG_LEVEL = process.env.LOG_LEVEL || 'WARN'
@@ -63,12 +64,9 @@ describe('Pact for Film Provider', () => {
         it('returns all films', () => {
             return filmService.getAllFilms()
                 .then(response => {
-                    expect(response).to.be.not.null;
-                    expect(response).to.have.length(3);
-                    expect(response[0].Descripcion).to.equal("Space");
-
-                    //Generated value it's used on client tests
-                    expect(response[2].id).to.equal(10);
+                    expect(response).to.deep.members([new Film(1, "Star Wars", "Space", 1980), 
+                                                      new Film(2, "Superman", "Comic", 1986),
+                                                      new Film(10, "Indiana Jones", "Adventures", 1985)]);
                 });
         });
     });
@@ -111,8 +109,7 @@ describe('Pact for Film Provider', () => {
         it('returns one film', () => {
             return filmService.getFilmById(1)
                 .then(response => {
-                    expect(response).to.be.not.null;
-                    expect(response.Year).to.be.eq(1980);
+                    expect(response).to.deep.equal(new Film(1, "Star Wars", "Space", 1980));
                 });
         });
         it('returns not found when film does not exist', () => {
