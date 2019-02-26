@@ -6,6 +6,7 @@ const {
 } = require('@pact-foundation/pact')
 const expect = chai.expect
 const API_PORT = process.env.API_PORT || 9123
+const ANY_NUMBER = 10;
 //chai.use(chaiAsPromised)
 
 const PactResponses = require('./PactResponses')
@@ -64,9 +65,14 @@ describe('Pact for Film Provider', () => {
         it('returns all films', () => {
             return filmService.getAllFilms()
                 .then(response => {
-                    expect(response).to.deep.members([new Film(1, "Star Wars", "Space", 1980), 
-                                                      new Film(2, "Superman", "Comic", 1986),
-                                                      new Film(10, "Indiana Jones", "Adventures", 1985)]);
+                    // Reason: 'like' matcher for id
+                    response.forEach(function(film) {
+                        expect(film.id).to.be.an('number');
+                    });
+                    response.forEach(function(film) { film.id = ANY_NUMBER; });
+                    expect(response).to.deep.members([new Film(ANY_NUMBER, "Star Wars", "Space", 1980), 
+                                                      new Film(ANY_NUMBER, "Superman", "Comic", 1986),
+                                                      new Film(ANY_NUMBER, "Indiana Jones", "Adventures", 1985)]);
                 });
         });
     });
