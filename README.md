@@ -85,10 +85,9 @@ npm install mocha chai --save-dev
 **NOTA:** Esta configuración debería realizarse tanto en el lado del cliente como el del proveedor. En este caso, asumimos que ambas partes están desarrolladas sobre NodeJs. De no ser así, habría que utilizar la librería de PACT y runner de pruebas correspondientes en cada caso.
 En el ejemplo de [GitHub](http://github.com/morvader/pactjs_testing) puede verse como realizar la verificación de un pacto en el caso de que el cliente se haya desarrollado en Python
 
-
 ### Configuración de PACT en cliente
 
-* **Propiedades generales**: Especificar nombre del consumidor y proveedor para facilitar la depuración así como el nombre y la ubicación del pacto generado
+ **Propiedades generales**: Especificar nombre del consumidor y proveedor para facilitar la depuración así como el nombre y la ubicación del pacto generado
 
 ```javascript
 const provider = new Pact({ 
@@ -104,7 +103,7 @@ const provider = new Pact({
 
 ### Definición de interacciones
 
-* Especificamos la interacción y la prueba unitaria que la ejercita
+ Especificamos la interacción y la prueba unitaria que la ejercita
 
 ```javascript
 describe("Inserting films", () => {
@@ -158,21 +157,23 @@ describe("Inserting films", () => {
         })
     });
 ```
+
 Para generar el pacto correspondiente pasaríamos a ejecutar las pruebas:
 
 ```node
 mocha ./client/test/consumerPact.spec.js --timeout 10000
 ```
-*Se añade un timetout por seguridad, ya que dedemos dejar tiempos al sistema a que levante el servidor mockeado*
+
+**Se añade un timeout por seguridad, ya que dedemos dejar tiempos al sistema a que levante el servidor mockeado*
 
 Con esto tendríamos por un lado, el resultado de la pruebas que comprobarían que el cliente es compatible con la definición del contrato y por otro, el archivo JSon que especifica el contrato
 
 ### Verificar en el proveedor
 
-* El verificador de Pact se encargará de lanzar las peticiones contra el servicio real y comprobar las respuestas con las especificadas.
-* Indicar el endpoint del proveedor desplegado contra el que se lanzarán las peticiones
-* Si fuese necesario, especificar la URL del servicio que se utilizará para realizar el setUp adecuado del sistema antes de la prueba.
-* Indicar la ubicación, ya se ruta física o http, del fichero-pacto (generado previamente desde el cliente)
+- El verificador de Pact se encargará de lanzar las peticiones contra el servicio real y comprobar las respuestas con las especificadas.
+- Indicar el endpoint del proveedor desplegado contra el que se lanzarán las peticiones
+- Si fuese necesario, especificar la URL del servicio que se utilizará para realizar el setUp adecuado del sistema antes de la prueba.
+- Indicar la ubicación, ya se ruta física o http, del fichero-pacto (generado previamente desde el cliente)
 
 ```javascript
 let clienteNormal = {
@@ -199,4 +200,4 @@ mocha ./api/test/apiPact.spec.js --timeout 10000
 
 ### Resultados
 
-* En la consola de ejecución veremos los resultado de la prueba, "success" en el caso de que todo haya ido bien o los mensajes de error correspondientes con las diferencias encontradas entre lo especificado en el pacto y las respuestas reales.
+En la consola de ejecución veremos los resultado de la prueba, "success" en el caso de que todo haya ido bien o los mensajes de error correspondientes con las diferencias encontradas entre lo especificado en el pacto y las respuestas reales.
