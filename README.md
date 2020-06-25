@@ -1,5 +1,6 @@
 # Introducción
-A día de hoy, es extraño encontrarnos con un sistema que se desarrolle de manera “monolítica”, cada vez es más habitual, por las ventajas que ello supone, dividirlo en componentes más pequeños que se comunican entre sí para cubrir las necesidades esperadas. 
+
+A día de hoy, es extraño encontrarnos con un sistema que se desarrolle de manera “monolítica”, cada vez es más habitual, por las ventajas que ello supone, dividirlo en componentes más pequeños que se comunican entre sí para cubrir las necesidades esperadas.
 Esto hace que la funcionalidad no se encuentre concentrada en un único punto, si no que sea la colaboración de todas las partes la que dé sentido al sistema.
 Lo recomendable es que cada una de estas partes tenga programadas unas pruebas unitarias que verifiquen que el componente se comporte correctamente de manera aislada. No obstante, como bien sabemos, que cada módulo funcione correctamente de manera individual no garantiza que el sistema se vaya comportar adecuadamente en conjunto.
 
@@ -14,16 +15,16 @@ Existen varias librerías que dan soporte a este tipo de pruebas. En esta charla
 # Contract Testing con PACT
 
 [Pact](https://docs.pact.io) es un framework **open source** que facilita el testing de componentes basándose en contratos. Sus principales ventajas son:
+
 - Open source
 - Bien documentado
 - Comunidad activa
 - Soporte para los principales lenguajes (Ruby, .Net, Java, JS, PHP, etc.)
 - Modelo "*Consumer Driven*"
 
-
 ## Consumer Driven Contract Testing
 
-A la hora de realizar cualquier cambio en un sistema donde se sigue una arquitectura de proveedor/consumidor, el eslabón más débil de la cadena siempre será el consumidor y el que, principalmente, sufrirá los efectos de cualquier error. 
+A la hora de realizar cualquier cambio en un sistema donde se sigue una arquitectura de proveedor/consumidor, el eslabón más débil de la cadena siempre será el consumidor y el que, principalmente, sufrirá los efectos de cualquier error.
 En cualquier sistema orientado a servicios, se debe garantizar en todo momento que los consumidores de éstos, siguen operando con normalidad. Es por ello que se debe prestar especial atención a la hora de mantener la compatibilidad entre ambos sistemas. Esto es, principalmente, que el formato de las peticiones y respuestas sea el esperado en cada parte respectivamente.
 
 Es por ello que en determinados tipos de soluciones tiene más sentido que sea el cliente quién "*tome la iniciativa*" a la hora definir las reglas de comunicación entre las partes. En la práctica. Este enfoque no implica que sea el cliente el que "dicte" las normas, en todo caso, el pacto debe surgir de una comunicación entre parte y plasmar los acuerdos que se hayan tomado.
@@ -32,6 +33,7 @@ Es por ello que en determinados tipos de soluciones tiene más sentido que sea e
 
 El framework **Pact** establece un workflow de trabajo determinado y aporta una serie de utilidades que permite llevarlo a cabo.
 Los elementos principales que forman parte de este flujo son:
+
 - Expectations (Interacciones)
 - Mock Provider
 - Pact file
@@ -51,8 +53,7 @@ El orden de ejecución sería el siguiente:
 7. Este fichero deberá ser compartido con el proveedor. *En cada proyecto y equipo de trabajo se deberá buscar la manera más adecuada de realizar esta acción. [Pact Broker](https://github.com/pact-foundation/pact_broker) puede ser una opción interesante por sus ventajas
 8. Arrancamos el proveedor
 9. En el lado del consumidor lanzamos el verificador de pactos indicando la ubicación del fichero con el pacto
-10. Pact, levantará en local un mock del consumidor, éste lanzará contra nuestro proveedor las llamadas previamente definidas y comprobará las respuestas con las esperadas
-      
+10. Pact, levantará en local un mock del consumidor, éste lanzará contra nuestro proveedor las llamadas previamente definidas y comprobará las respuestas con las esperadas  
 
 ![Contract Testing Diagram](./Docs/ContractDrivenTesting.png "Consumer Driven Contract Testing Diagram")
 
@@ -71,13 +72,13 @@ El código mostrado a continuación sería el correspondiente a la implementaci�
 
 Para instalar **PACT** en un entorno Node debemos ejecutar
 
-```
+```node
 npm install @pact-foundation/pact --save-dev
 ```
 
 Con esto, ya podremos hacer uso de PACT desde nuestro código. No obstante para poder *ejecutarlo*, necesitaremos que un *runner* de pruebas se encargue de lanzar las verificaciones pertinentes. En este ejemplo, y por simplicidad, utilizaremos la dupla "mocha + chai", aunque podría haber sido cualquier otra opción.
 
-```
+```node
 npm install mocha chai --save-dev
  ```
 
@@ -89,8 +90,8 @@ En el ejemplo de [GitHub](http://github.com/morvader/pactjs_testing) puede verse
 
 * **Propiedades generales**: Especificar nombre del consumidor y proveedor para facilitar la depuración así como el nombre y la ubicación del pacto generado
 
-```
-const provider = new Pact({   
+```javascript
+const provider = new Pact({ 
     consumer: 'Insert Films Client',
     provider: 'Films Provider',
     port: API_PORT,
@@ -105,14 +106,13 @@ const provider = new Pact({
 
 * Especificamos la interacción y la prueba unitaria que la ejercita
 
-```
+```javascript
 describe("Inserting films", () => {
     before(() => {
         filmService = new FilmsService(endPoint);
         //Start mock service
         return provider.setup();
-    })
-    
+    }) 
     after(() => {
         // Generate pact file
         return provider.finalize()
@@ -160,7 +160,7 @@ describe("Inserting films", () => {
 ```
 Para generar el pacto correspondiente pasaríamos a ejecutar las pruebas:
 
-```
+```node
 mocha ./client/test/consumerPact.spec.js --timeout 10000
 ```
 *Se añade un timetout por seguridad, ya que dedemos dejar tiempos al sistema a que levante el servidor mockeado*
@@ -169,12 +169,12 @@ Con esto tendríamos por un lado, el resultado de la pruebas que comprobarían q
 
 ### Verificar en el proveedor
 
-  * El verificador de Pact se encargará de lanzar las peticiones contra el servicio real y comprobar las respuestas con las especificadas.
-  * Indicar el endpoint del proveedor desplegado contra el que se lanzarán las peticiones
-  * Si fuese necesario, especificar la URL del servicio que se utilizará para realizar el setUp adecuado del sistema antes de la prueba.
-  * Indicar la ubicación, ya se ruta física o http, del fichero-pacto (generado previamente desde el cliente)
+* El verificador de Pact se encargará de lanzar las peticiones contra el servicio real y comprobar las respuestas con las especificadas.
+* Indicar el endpoint del proveedor desplegado contra el que se lanzarán las peticiones
+* Si fuese necesario, especificar la URL del servicio que se utilizará para realizar el setUp adecuado del sistema antes de la prueba.
+* Indicar la ubicación, ya se ruta física o http, del fichero-pacto (generado previamente desde el cliente)
 
-```
+```javascript
 let clienteNormal = {
     provider:"Films Provider",
     providerBaseUrl: 'http://localhost:3000',
@@ -193,7 +193,7 @@ new Verifier().verifyProvider(clienteNormal).then(() => {
 
 De la misma manera que en el lado del cliente, ejecutaríamos las pruebas en servidor:
 
-```
+```node
 mocha ./api/test/apiPact.spec.js --timeout 10000
 ```
 
