@@ -15,7 +15,6 @@
     "pact-server": "mocha ./api/test/apiPact.spec.js --timeout 10000",
     "pact-server-python": "cd ./api_python/ && invoke ProviderPact",
     "pact-server-Several": "mocha ./api/test/apiPactSeveralClients.spec.js --timeout 10000"
-    
   },
   "author": "Francisco Moreno",
   "license": "MIT",
@@ -24,12 +23,12 @@
     "request": "^2.87.0"
   },
   "devDependencies": {
-    "@pact-foundation/pact": "^5.9.1",
-    "chai": "^4.1.2",
-    "mocha": "^5.2.0",
-    "nock": "^9.6.0",
-    "nodemon": "^1.18.3",
-    "sinon": "^6.1.4",
-    "supertest": "^3.1.0"
+    "@pact-foundation/pact": "^9.11.1",
+    "chai": "^4.2.0",
+    "mocha": "^8.1.3",
+    "nock": "^13.0.4",
+    "nodemon": "^2.0.4",
+    "sinon": "^9.0.3",
+    "supertest": "^4.0.2"
   }
 }
