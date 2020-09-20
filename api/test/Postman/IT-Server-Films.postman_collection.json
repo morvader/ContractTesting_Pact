@@ -6,42 +6,6 @@
 	},
 	"item": [
 		{
-			"name": "InitFilms",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"id": "9fb914d0-3889-4b6a-9dce-60e0f0de671c",
-						"exec": [
-							"pm.test(\"Status code is 200\", function () {",
-							"    pm.response.to.have.status(200);",
-							"});"
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"method": "POST",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
-				"url": {
-					"raw": "{{url}}/init/",
-					"host": [
-						"{{url}}"
-					],
-					"path": [
-						"init",
-						""
-					]
-				}
-			},
-			"response": []
-		},
-		{
 			"name": "GetAllFilms Inicial",
 			"event": [
 				{
@@ -70,10 +34,6 @@
 			"request": {
 				"method": "GET",
 				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
 				"url": {
 					"raw": "{{url}}/films/",
 					"host": [
@@ -111,9 +71,51 @@
 			"request": {
 				"method": "GET",
 				"header": [],
+				"url": {
+					"raw": "{{url}}/films/2",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"films",
+						"2"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Put Film",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "6d4250e0-1a81-44b2-a34e-f677a529d2ba",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"pm.test(\"Contenido esperado\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.film.id).to.eql(2);",
+							"    pm.expect(jsonData.film.Name).to.eql('New Film');",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": ""
+					"raw": "{\r\n    \"id\": 2,\r\n    \"Name\": \"New Film\",\r\n    \"Description\": \"Comic\",\r\n    \"Year\": 1986\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
 				},
 				"url": {
 					"raw": "{{url}}/films/2",
@@ -123,6 +125,47 @@
 					"path": [
 						"films",
 						"2"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Put Film - Not Found",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "9d1b3d4c-f1fa-4107-aad7-fac9869778c9",
+						"exec": [
+							"pm.test(\"Status code is 404\", function () {",
+							"    pm.response.to.have.status(404);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"id\": 2,\r\n    \"Name\": \"New Film\",\r\n    \"Description\": \"Comic\",\r\n    \"Year\": 1986\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/films/99",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"films",
+						"99"
 					]
 				}
 			},
@@ -243,10 +286,6 @@
 			"request": {
 				"method": "GET",
 				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
 				"url": {
 					"raw": "{{url}}/films/",
 					"host": [
@@ -280,8 +319,8 @@
 				"method": "DELETE",
 				"header": [],
 				"body": {
-					"mode": "raw",
-					"raw": ""
+					"mode": "formdata",
+					"formdata": []
 				},
 				"url": {
 					"raw": "{{url}}/films/4",
@@ -325,10 +364,6 @@
 			"request": {
 				"method": "GET",
 				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
 				"url": {
 					"raw": "{{url}}/films/",
 					"host": [
