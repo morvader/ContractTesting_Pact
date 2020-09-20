@@ -18,12 +18,21 @@ class FilmRepository {
 
     delete(filmId) {
         var elem = this.getById(filmId);
-        if (typeof elem === "undefined"){
+        if (typeof elem === "undefined") {
             return -1;
         }
         var index = this.films.indexOf(elem);
         this.films.splice(index, 1);
-        
+
+    }
+    update(filmId,film) {
+        var elem = this.getById(filmId);
+        if (typeof elem === "undefined") {
+            return -1;
+        }
+        var index = this.films.indexOf(elem);
+        this.films[index] = film;
+
     }
 
     clear() {

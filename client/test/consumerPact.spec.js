@@ -73,7 +73,7 @@ describe("Pact for Film Provider", () => {
     before(() => {
       provider.addInteraction({
         state: "Generate films",
-        uponReceiving: "Get all stored films",
+        uponReceiving: "Get film by ID",
         withRequest: {
           method: "GET",
           path: "/films/1",
@@ -91,7 +91,7 @@ describe("Pact for Film Provider", () => {
       });
       provider.addInteraction({
         state: "Generate films",
-        uponReceiving: "film not found",
+        uponReceiving: "film not found when getting",
         withRequest: {
           method: "GET",
           path: "/films/99",
@@ -112,6 +112,70 @@ describe("Pact for Film Provider", () => {
     });
     it("returns not found when film does not exist", () => {
       return filmService.getFilmById(99).then((response) => {
+        expect(response).to.be.not.null;
+        expect(response.statusCode).to.be.eq(404);
+      });
+    });
+  });
+  describe("Update Film", () => {
+    const film = {
+      "id": 1,
+      "Name": "Change Name",
+      "Description": "Space",
+      "Year": 2020,
+    }
+
+    before(() => {
+      provider.addInteraction({
+        state: "Generate films",
+        uponReceiving: "Update Film by ID",
+        withRequest: {
+          method: "PUT",
+          path: "/films/1",
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: film
+        },
+        willRespondWith: {
+          status: 200,
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: {
+            film: {
+              "id": 1,
+              "Name": "Change Name",
+              "Description": "Space",
+              "Year": 2020,
+            }
+          },
+        },
+      });
+      provider.addInteraction({
+        state: "Generate films",
+        uponReceiving: "film not found when updating",
+        withRequest: {
+          method: "PUT",
+          path: "/films/99",
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: film
+        },
+        willRespondWith: {
+          status: 404,
+        },
+      });
+    });
+
+    it("returns one film", () => {
+      return filmService.updateFilm(1, JSON.stringify(film)).then((response) => {
+        expect(response).to.deep.equal(new Film(1, "Change Name", "Space", 2020));
+      });
+    });
+    it("returns not found when film does not exist", () => {
+      return filmService.updateFilm(99, JSON.stringify(film)).then((response) => {
         expect(response).to.be.not.null;
         expect(response.statusCode).to.be.eq(404);
       });

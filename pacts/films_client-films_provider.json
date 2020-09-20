@@ -57,7 +57,7 @@
       }
     },
     {
-      "description": "Get all stored films",
+      "description": "Get film by ID",
       "providerState": "Generate films",
       "request": {
         "method": "GET",
@@ -82,13 +82,66 @@
       }
     },
     {
-      "description": "film not found",
+      "description": "film not found when getting",
       "providerState": "Generate films",
       "request": {
         "method": "GET",
         "path": "/films/99",
         "headers": {
           "Accept": "application/json"
+        }
+      },
+      "response": {
+        "status": 404,
+        "headers": {
+        }
+      }
+    },
+    {
+      "description": "Update Film by ID",
+      "providerState": "Generate films",
+      "request": {
+        "method": "PUT",
+        "path": "/films/1",
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "id": 1,
+          "Name": "Change Name",
+          "Description": "Space",
+          "Year": 2020
+        }
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "film": {
+            "id": 1,
+            "Name": "Change Name",
+            "Description": "Space",
+            "Year": 2020
+          }
+        }
+      }
+    },
+    {
+      "description": "film not found when updating",
+      "providerState": "Generate films",
+      "request": {
+        "method": "PUT",
+        "path": "/films/99",
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "id": 1,
+          "Name": "Change Name",
+          "Description": "Space",
+          "Year": 2020
         }
       },
       "response": {
