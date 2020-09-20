@@ -103,11 +103,30 @@ describe("Pact for Film Provider", () => {
           status: 404,
         },
       });
+      provider.addInteraction({
+        state: "Clear repo",
+        uponReceiving: "film not found when empty repo",
+        withRequest: {
+          method: "GET",
+          path: "/films/3",
+          headers: {
+            Accept: "application/json",
+          },
+        },
+        willRespondWith: {
+          status: 404,
+        },
+      });
     });
 
     it("returns one film", () => {
       return filmService.getFilmById(1).then((response) => {
         expect(response).to.deep.equal(new Film(1, "Star Wars", "Space", 1980));
+      });
+    });
+    it("returns not found when reporsitory is empty", () => {
+      return filmService.getFilmById(3).then((response) => {
+        expect(response.statusCode).to.be.eq(404);
       });
     });
     it("returns not found when film does not exist", () => {
@@ -119,11 +138,11 @@ describe("Pact for Film Provider", () => {
   });
   describe("Update Film", () => {
     const film = {
-      "id": 1,
-      "Name": "Change Name",
-      "Description": "Space",
-      "Year": 2020,
-    }
+      id: 1,
+      Name: "Change Name",
+      Description: "Space",
+      Year: 2020,
+    };
 
     before(() => {
       provider.addInteraction({
@@ -133,9 +152,9 @@ describe("Pact for Film Provider", () => {
           method: "PUT",
           path: "/films/1",
           headers: {
-            'Content-Type': 'application/json'
+            "Content-Type": "application/json",
           },
-          body: film
+          body: film,
         },
         willRespondWith: {
           status: 200,
@@ -144,11 +163,11 @@ describe("Pact for Film Provider", () => {
           },
           body: {
             film: {
-              "id": 1,
-              "Name": "Change Name",
-              "Description": "Space",
-              "Year": 2020,
-            }
+              id: 1,
+              Name: "Change Name",
+              Description: "Space",
+              Year: 2020,
+            },
           },
         },
       });
@@ -159,9 +178,9 @@ describe("Pact for Film Provider", () => {
           method: "PUT",
           path: "/films/99",
           headers: {
-            'Content-Type': 'application/json'
+            "Content-Type": "application/json",
           },
-          body: film
+          body: film,
         },
         willRespondWith: {
           status: 404,
@@ -170,15 +189,21 @@ describe("Pact for Film Provider", () => {
     });
 
     it("returns one film", () => {
-      return filmService.updateFilm(1, JSON.stringify(film)).then((response) => {
-        expect(response).to.deep.equal(new Film(1, "Change Name", "Space", 2020));
-      });
+      return filmService
+        .updateFilm(1, JSON.stringify(film))
+        .then((response) => {
+          expect(response).to.deep.equal(
+            new Film(1, "Change Name", "Space", 2020)
+          );
+        });
     });
     it("returns not found when film does not exist", () => {
-      return filmService.updateFilm(99, JSON.stringify(film)).then((response) => {
-        expect(response).to.be.not.null;
-        expect(response.statusCode).to.be.eq(404);
-      });
+      return filmService
+        .updateFilm(99, JSON.stringify(film))
+        .then((response) => {
+          expect(response).to.be.not.null;
+          expect(response.statusCode).to.be.eq(404);
+        });
     });
   });
 });

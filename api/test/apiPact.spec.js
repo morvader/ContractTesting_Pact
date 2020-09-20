@@ -1,14 +1,28 @@
 const { Verifier } = require("@pact-foundation/pact");
-const { Matchers } = require("@pact-foundation/pact");
+
 const controller = require("../controllers/filmsController");
 
 var path = require("path");
-const Film = require("../models/filmModel");
 
-// Setup provider server to verify
-//const app = require("express")();
-//app.use(require("./product.routes"));
-//const server = app.listen("8080");
+var express = require("express"),
+  app = express(),
+  port = process.env.PORT || 3000,
+  Film = require("../models/filmModel"),
+  bodyParser = require("body-parser");
+
+const init = () => {
+  app.use(bodyParser.urlencoded({ extended: true }));
+  app.use(bodyParser.json());
+
+  var routes = require("../routes/filmsRoutes"); //importing route
+  routes(app); //register the route
+  controller.init_data();
+  return app.listen(port, () =>
+    console.log(`Provider API listening on port ${port}...`)
+  );
+};
+
+const server = init();
 
 describe("Pact Verification", () => {
   it("validates the expectations of ProductService", () => {
@@ -20,14 +34,18 @@ describe("Pact Verification", () => {
         path.resolve(__dirname, "../../pacts/films_client-films_provider.json"),
       ],
       stateHandlers: {
-        "Generate Films": () => {
-          controller.filmRepository.insert(
-            new Film(1, "Indiana Jones", "Indiana Jones", 1980)
-          );
+        "Generate films": () => {
+          controller.filmRepository.clear();
+          controller.init_data();
+        },
+        "Clear repo": () => {
+          controller.filmRepository.clear();
         },
       },
     };
 
-    return new Verifier(opts).verifyProvider().finally();
+    return new Verifier(opts).verifyProvider().finally(() => {
+      server.close();
+    });
   });
 });

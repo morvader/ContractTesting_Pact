@@ -82,6 +82,22 @@
       }
     },
     {
+      "description": "film not found when empty repo",
+      "providerState": "Clear repo",
+      "request": {
+        "method": "GET",
+        "path": "/films/3",
+        "headers": {
+          "Accept": "application/json"
+        }
+      },
+      "response": {
+        "status": 404,
+        "headers": {
+        }
+      }
+    },
+    {
       "description": "film not found when getting",
       "providerState": "Generate films",
       "request": {
