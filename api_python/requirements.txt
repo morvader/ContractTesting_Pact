@@ -1,6 +1,5 @@
 pact-python
 flask
 jsonify
-request
 pytest
 invoke
